@@ -164,13 +164,18 @@
     <div class="gate-card">
       <h2 id="gate-title">Unlock Quote Builder</h2>
       <div class="kicker">Enter the 4‑digit access code to proceed.</div>
+
       <label for="pw">Access code</label>
-      <input id="pw" type="password" inputmode="numeric" autocomplete="current-password" placeholder="••••" aria-describedby="pw-help" />
+      <!-- No placeholder dots as requested -->
+      <input id="pw" type="password" inputmode="numeric" autocomplete="current-password" />
+
       <div id="pw-help" class="muted-note">Hint: Provided by Kelsey</div>
       <div class="spacer"></div>
+
       <div class="btns">
         <button id="unlockBtn" aria-label="Unlock">Unlock</button>
       </div>
+
       <div id="pw-error" class="error" aria-live="polite"></div>
       <div class="footer-note">Light client‑side gate for convenience only.</div>
     </div>
@@ -338,6 +343,8 @@
       const pw = document.getElementById('pw');
       const unlockBtn = document.getElementById('unlockBtn');
       const err = document.getElementById('pw-error');
+
+      // ✅ THIS IS THE PASSWORD (update here if needed)
       const ACCESS = '4273';
 
       function unlock(){
@@ -350,13 +357,16 @@
           pw.focus();
         }
       }
+
       // If previously unlocked in this tab
       if (sessionStorage.getItem('quote_builder_unlocked') === '1'){
         gate.style.display = 'none';
         app.style.display = '';
       }
+
       unlockBtn.addEventListener('click', unlock);
       pw.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ unlock(); } });
+
       // Autofocus on load
       setTimeout(()=>pw.focus(), 50);
     })();
@@ -509,5 +519,16 @@
     $('clearBtn').addEventListener('click', () => {
       document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]').forEach(el => el.value = '');
       document.querySelectorAll('input[name="quoteType"]').forEach(el => el.checked = false);
-      commonFields.classList.add('hidden'); commonFields.setAttribute('aria-hidden','true');
-      eventFields.classList.add('hidden'); eventFields.setAttribute('aria-hidden','true');
+      document.getElementById('commonFields').classList.add('hidden'); commonFields.setAttribute('aria-hidden','true');
+      document.getElementById('eventFields').classList.add('hidden'); eventFields.setAttribute('aria-hidden','true');
+      document.getElementById('roomsFields').classList.add('hidden'); roomsFields.setAttribute('aria-hidden','true');
+      document.getElementById('preview').value = '';
+    });
+
+    // Initialize (empty)
+    updatePreview();
+  </script>
+</body>
+</html>
+``
+
